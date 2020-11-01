@@ -24,9 +24,18 @@
 
     </header>
     <main>
-        <div class="formulario">
+        <div class="formulario" <h3>Busca un producto</h3>
             <input id="productoBuscar" type="text" placeholder="Busca un producto" />
             <button onclick="buscarProducto()">BUSCAR</button>
+        </div>
+
+        <div class="formulario">
+            <h3>Añade un producto</h3>
+            <input id="fotoProducto" type="file" placeholder="foto" />
+            <input id="nombreProducto" type="text" placeholder="nombre" />
+            <textarea id="descripcionProducto" name="textarea" rows="10" cols="50">Descripción del producto</textarea>
+            <input id="precioProducto" type="text" placeholder="Precio" />
+            <button onclick="addProducto()">AÑADIR PRODUCTO</button>
         </div>
 
         <diV id="resultado"></diV>

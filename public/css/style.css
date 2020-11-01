@@ -18,7 +18,7 @@ body {
 }
 
 .producto h4 {
-  font-size: 2em;
+  font-size: 1.4em;
   font-weight: bold;
   margin: 0;
 }
@@ -33,8 +33,10 @@ body {
   margin-bottom: 1em;
 }
 
-#resultado h3 {
-  margin: 0;
+.formulario input,
+.formulario textarea {
+  display: block;
+  margin-bottom: 0.5em;
 }
 
 #resultado p {

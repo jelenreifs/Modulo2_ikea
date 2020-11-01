@@ -45,6 +45,23 @@ app.get("/almacen/:seccion", function (req, res) {
     }
 }) */
 
+app.post('/almacen', function (req, res) {
+  let tipo = req.body.seccion;
+  
+  let almacen;
+
+let producto = {
+  imagen : req.body.img,
+  nombre : req.body.nombre,
+  descripcion: req.body.descripcion,
+  precio: req.body.precio
+  };
+  
+ 
+  almacen[tipo].push(producto);
+  res.send(almacen)  
+})
+
 app.listen(3000, function() {
   console.log('Escuchando puerto 3000');
 });
