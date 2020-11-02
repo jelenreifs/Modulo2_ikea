@@ -45,59 +45,30 @@ app.get("/almacen/:seccion", function (req, res) {
     }
 }) */
 
-/* app.post('/almacen', function (req, res) {
-  let tipo = req.body.seccion;
-  
-  let almacen;
-
-let producto = {
-  imagen : req.body.img,
-  nombre : req.body.nombre,
-  descripcion: req.body.descripcion,
-  precio: req.body.precio
-  };
-  
- 
-  almacen[tipo].push(producto);
-  res.send(almacen)  
-})
-
-app.listen(3000, function() {
-  console.log('Escuchando puerto 3000');
-}); */
-
-
-app.post("/almacen", function(req, res) {
+app.post("/add", function(req, res) {
     let seccion = req.body.seccion
-  //seccion = seccion.toLowerCase()
-    let nombre = req.body.nombre
-    let descripccion = req.body.descripccion
-    let img = req.body.img
-    let precio = req.body.precio
-
-    let producto = {
-      nombre : nombre,
-      descripcion : descripccion,
-      imagen : img,
-      precio : precio
+   // seccion = seccion.toLowerCase()
+    let add = {
+        nombre : req.body.nombre,
+        descripcion : req.body.descripccion,
+        img : req.body.img,
+        precio : req.body.precio,
   }
-
-    let boolean = false
+  
 
     if (seccion == "armarios") {
-        almacen.armarios.push(producto)
-        boolean = true
+        almacen.armarios.push(add)
     } else if (seccion == "mesas") {
-        almacen.mesas.push(producto)
-        boolean = true
+        añmacen.mesas.push(add)
     } else if (seccion == "sillas") {
-        almacen.sillas.push(producto)
-        boolean = true
-    }
-    if (boolean = false) {
-        res.send({ error: true, mensaje: "Esa seccion no existe" })
-    }
+        almacen.sillas.push(add)
+
+  }
+
+  res.send(add) 
+  
 })
+
 
 
 app.listen(3000, function() {

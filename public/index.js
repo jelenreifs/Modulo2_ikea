@@ -1,5 +1,6 @@
 let almacenTodos = "";
 
+
 fetch('/almacen')
     .then(response => response.json())
     .then(data => {
@@ -53,37 +54,37 @@ function buscarProducto() {
 function addProducto() {
     let imagen = document.getElementById('fotoProducto').value;
     let nombre = document.getElementById('nombreProducto').value;
-    let descripcion = parseInt(document.getElementById('descripcionProducto').value);
+    let descripcion = document.getElementById('descripcionProducto').value;
     let precio = parseInt(document.getElementById('precioProducto').value);
 
     let select = document.getElementById('categorias');
-    selectedOption = select.options[select.selectedIndex].value;
-    console.log(selectedOption);
-    console.log(imagen  +  nombre + descripcion + precio);
+    let seccion = select.options[select.selectedIndex].value;
+    console.log(seccion);
 
-  let producto = {
-    imagen,
-    nombre,
-    descripcion,
-    precio,
-  };
 
-  fetch("/almacen", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(producto),
-  })
+    let add = {
+        imagen,
+        nombre,
+        descripcion,
+        precio
+    };
+
+    fetch('/add', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(add)
+    })
         .then(response => response.json())
-    .then(data => {
+        .then(data => {
+            let almacenArray = Object.values(data);
 
-        // Devuelve un array con los valores correspondientes al objeto
-        let almacenArray = Object.values(data);
-
-        for (let i = 0; i < almacenArray.length; i++) {
+            let producto = "";
+            
+             for (let i = 0; i < almacenArray.length; i++) {
             for (let j = 0; j < almacenArray.length; j++) {
-                almacenTodos +=
+                producto +=
                     `<div class="producto">
                         <img src="${almacenArray[i][j].img}" alt="${almacenArray[i][j].nombre}">
                             <div class="info-producto">
@@ -94,9 +95,10 @@ function addProducto() {
                      </div>`
             }
         }
-         document.getElementById('resultado').innerHTML = almacenTodos;
-    })
+                document.getElementById('resultado').innerHTML = producto;
+            });
         
+    
 }
 
 
