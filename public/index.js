@@ -3,6 +3,8 @@ let almacenTodos = "";
 fetch('/almacen')
     .then(response => response.json())
     .then(data => {
+
+        // Devuelve un array con los valores correspondientes al objeto
         let almacenArray = Object.values(data);
 
         for (let i = 0; i < almacenArray.length; i++) {
@@ -48,13 +50,16 @@ function buscarProducto() {
 }
 
 
-
-
 function addProducto() {
-    let imagen = document.getElementById("fotoProducto").value;
-    let nombre = document.getElementById("nombreProducto").value;
-    let descripcion = parseInt(document.getElementById("descripcionProducto").value);
-    let precio = parseInt(document.getElementById("precioProducto").value);
+    let imagen = document.getElementById('fotoProducto').value;
+    let nombre = document.getElementById('nombreProducto').value;
+    let descripcion = parseInt(document.getElementById('descripcionProducto').value);
+    let precio = parseInt(document.getElementById('precioProducto').value);
+
+    let select = document.getElementById('categorias');
+    selectedOption = select.options[select.selectedIndex].value;
+    console.log(selectedOption);
+    console.log(imagen  +  nombre + descripcion + precio);
 
   let producto = {
     imagen,
@@ -70,52 +75,28 @@ function addProducto() {
     },
     body: JSON.stringify(producto),
   })
-    .then(response => response.json())
+        .then(response => response.json())
     .then(data => {
-        
-         let almacenArray = Object.values(data);
-     
-        let [armarios, sillas, mesas] = almacenArray
-        
-      for (let i = 0; i < armarios.length; i++) {
-        armarios += `
-        <div class="producto" >
-            <img src="${armarios[i].img}" alt="${armarios[i].nombre}">
-                <div class="info-producto">
-                    <h4>${armarios[i].nombre}</h4>
-                    <p>${armarios[i].descripccion}</p>
-                    <p>Precio: ${armarios[i].precio}</p>
-                </div>
-        </div>`;
-    
-      }
-      for (let i = 0; i < mesas.length; i++) {
-        mesas += `
-          <div class="producto" >
-            <img src="${mesas[i].img}" alt="${mesas[i].nombre}">
-                <div class="info-producto">
-                    <h4>${mesas[i].nombre}</h4>
-                    <p>${mesas[i].descripccion}</p>
-                    <p>Precio: ${mesas[i].precio}</p>
-                </div>
-        </div>`;
+
+        // Devuelve un array con los valores correspondientes al objeto
+        let almacenArray = Object.values(data);
+
+        for (let i = 0; i < almacenArray.length; i++) {
+            for (let j = 0; j < almacenArray.length; j++) {
+                almacenTodos +=
+                    `<div class="producto">
+                        <img src="${almacenArray[i][j].img}" alt="${almacenArray[i][j].nombre}">
+                            <div class="info-producto">
+                                <h4>${almacenArray[i][j].nombre}</h4>
+                                <p>${almacenArray[i][j].descripccion}</p>
+                                <p>Precio: ${almacenArray[i][j].precio}</p>
+                            </div>
+                     </div>`
+            }
         }
+         document.getElementById('resultado').innerHTML = almacenTodos;
+    })
         
-    for (let i = 0; i < sillas.length; i++) {
-        sillas += `
-          <div class="producto" >
-            <img src="${sillas[i].img}" alt="${sillas[i].nombre}">
-                <div class="info-producto">
-                    <h4>${sillas[i].nombre}</h4>
-                    <p>${sillas[i].descripccion}</p>
-                    <p>Precio: ${sillas[i].precio}</p>
-                </div>
-        </div>`;
-        }
-        
-    document.getElementById('resultado').innerHTML = armarios + mesas + sillas ;  
-    
-    });
 }
 
 
