@@ -36,7 +36,7 @@ app.get("/almacen/:seccion", function (req, res) {
 
 app.post("/add", function (req, res) {
     let seccion = req.body.seccion
-    seccion = seccion.toLowerCase()
+   // seccion = seccion.toLowerCase()
     let add = {
         nombre: nombre = req.body.nombre,
         descripccion: descripccion = req.body.descripccion,
@@ -166,6 +166,7 @@ app.post("/cesta", function (req, res) {
     let nombre = req.body.nombre
     let cantidad = parseInt(req.body.cantidad)
 
+
     let booleanCesta = false
 
     if (cesta[0] != undefined) {
@@ -184,6 +185,7 @@ app.post("/cesta", function (req, res) {
                 almacen.armarios[i].cantidad = cantidad
                 cesta.push(almacen.armarios[i])
                 booleanCesta = true
+               
                 res.send(cesta)
             }
         }
@@ -210,18 +212,35 @@ app.post("/cesta", function (req, res) {
         }
     }
 
-
-
-
-
     if (booleanCesta == false) {
         res.send({ error: true, mensaje: "No existe ese producto" })
     }
+
     
     res.send(cesta)
 
 })
 
+
+
+
+app.delete('/cesta', function (req, res) {
+
+    let producto = {
+    nombre: nombre = req.body.nombre,
+        descripccion: descripccion = req.body.descripccion,
+        img: img = req.body.img,
+        precio: precio = req.body.precio,
+    }
+
+    for (let i = 0; i < cesta.length; i++) {
+        if (cesta[i].nombre === nombre) {
+            res.send(producto)
+            cesta.splice(i, 1);
+        }
+    }
+  
+});
 
 app.listen(3000, function() {
   console.log('Escuchando puerto 3000');

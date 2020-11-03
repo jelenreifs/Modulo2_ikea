@@ -181,6 +181,7 @@ fetch('/cesta')
                     <p>Precio: ${data[i].precio}</p>
                     <p>Stock: ${data[i].stock}</p>
                     <p>Unidades: ${data[i].cantidad}</p>
+                     <button id="botonEliminar" onclick=deleteCesta("${data[i].nombre}")>Eliminar</button>
                 </div>
             </div>
             `
@@ -190,17 +191,18 @@ fetch('/cesta')
 
 
 let productoCesta;
+let numProductosCesta;
+
 
 function addCesta(nombre, posicion) {
     let cantidad = parseInt(document.getElementById(posicion).value)
-    //let cantidad = document.getElementById("contador").value
-    console.log(cantidad);
-   // console.log(contador);
+    
 
     productoCesta = {
         nombre: nombre,
         cantidad: cantidad,
-       // contador: contador
+        contador: contador
+    
     }
 
     fetch("/cesta", {
@@ -224,21 +226,57 @@ function addCesta(nombre, posicion) {
                         <p>Precio: ${data[i].precio}</p>
                         <p>Stock: ${data[i].stock}</p>
                         <p>Unidades: ${data[i].cantidad}</p>
+                        <button id="botonEliminar" onclick=deleteCesta("${data[i].nombre}")>Eliminar</button>
                     </div>
                 </div>
                 `
-          /*   contadorCesta += `
-                    <p>${data[i].cantidad}</p>
-                ` */
-          
-
-   
-        }
-            
-
-           // document.getElementById("contador").innerHTML = contadorCesta;
-            document.getElementById("cesta").innerHTML = mensajeCesta;
-
+                  
+            }
         })
+    
+ 
+   // document.getElementById("cesta").innerHTML = mensajeCesta;
+    document.getElementById("contador").innerHTML = mensajeCesta;
+  
+
+}
+
+
+
+
+
+function deleteCesta(nombre) {   
+    productoCesta = {
+        nombre: nombre,
+    }
+
+    fetch("/cesta", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productoCesta),
+    })
+        .then(function (res) {
+            return res.json();
+        })
+        .then(function (data) {
+            for (let i = 0; i < data.length; i++) {
+                mensajeCesta += `
+                <div class="producto">
+                <img src="${data[i].img}" alt="${data[i].nombre}">
+                    <div class="info-producto">
+                        <h4>${data[i].nombre}</h4>
+                        <p>${data[i].descripccion}</p>
+                        <p>Precio: ${data[i].precio}</p>
+                        <p>Stock: ${data[i].stock}</p>
+                        <p>Unidades: ${data[i].cantidad}</p>
+                    </div>
+                </div>
+                `
+                  
+            }
+        })
+    document.getElementById("cesta").innerHTML = mensajeCesta;
 }
 
