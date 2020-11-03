@@ -6,14 +6,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 let almacen = require("./almacen")
+let cesta = []
 
-app.get("/almacen", function(req, res) {
-    res.send(almacen)
+app.get("/almacen", function (req, res) {
+    res.send(almacen);
 })
 
-app.get("/almacen/:seccion", function(req, res) {
+app.get("/almacen/:seccion", function (req, res) {
     let seccion = req.params.seccion;
-    seccion = seccion.toLowerCase();
+    //seccion = seccion.toLowerCase();
     let boolean = false;
 
     if (seccion == "armarios") {
@@ -33,7 +34,7 @@ app.get("/almacen/:seccion", function(req, res) {
 
 })
 
-app.post("/add", function(req, res) {
+app.post("/add", function (req, res) {
     let seccion = req.body.seccion
     seccion = seccion.toLowerCase()
     let add = {
@@ -45,53 +46,62 @@ app.post("/add", function(req, res) {
 
     if (seccion == "armarios") {
         almacen.armarios.push(add)
+        res.send(almacen)
     } else if (seccion == "mesas") {
         almacen.mesas.push(add)
+        res.send(almacen)
     } else if (seccion == "sillas") {
         almacen.sillas.push(add)
-
-  }
-  res.send(almacen)
+        res.send(almacen)
+    }
 
 })
 
- app.put("/editar", function(req, res) {
+app.put("/editar", function (req, res) {
     let seccion = req.body.seccion
+    seccion = seccion.toLowerCase()
     let nombre = req.body.nombre
-    let img = req.body.img
-    let descripccion = req.body.descripccion
-    let precio = req.body.precio
+    let nombreCambiado = req.body.nombreCambiado
+    let imgCambiado = req.body.img
+    let descripccionCambiado = req.body.descripccion
+    let precioCambiado = req.body.precio
 
     let booleanSeccion = false
-    let booleanProducto = false
+    //let booleanProducto = false
 
     if (seccion == "armarios") {
         for (let i = 0; i < almacen.armarios.length; i++) {
-            almacen.armarios[i].nombre = nombre
-            almacen.armarios[i].img = img
-            almacen.armarios[i].descripccion = descripccion
-            almacen.armarios[i].precio = precio
-            booleanProducto = true
+            if (nombre == almacen.armarios[i].nombre) {
+                almacen.armarios[i].nombre = nombre
+                almacen.armarios[i].img = imgCambiado
+                almacen.armarios[i].descripccion = descripccionCambiado
+                almacen.armarios[i].precio = precioCambiado
+                booleanProducto = true
+            }
         }
         booleanSeccion = true
         res.send(almacen)
     } else if (seccion == "mesas") {
         for (let i = 0; i < almacen.mesas.length; i++) {
-            almacen.mesas[i].nombre = nombre
-            almacen.mesas[i].img = img
-            almacen.mesas[i].descripccion = descripccion
-            almacen.mesas[i].precio = precio
-            booleanProducto = true
+            if (nombre == almacen.mesas[i].nombre) {
+                almacen.mesas[i].nombre = nombreCambiado
+                almacen.mesas[i].img = imgCambiado
+                almacen.mesas[i].descripccion = descripccionCambiado
+                almacen.mesas[i].precio = precioCambiado
+                booleanProducto = true
+            }
         }
         booleanSeccion = true
         res.send(almacen)
     } else if (seccion == "sillas") {
         for (let i = 0; i < almacen.sillas.length; i++) {
-            almacen.sillas[i].nombre = nombre
-            almacen.sillas[i].img = img
-            almacen.sillas[i].descripccion = descripccion
-            almacen.sillas[i].precio = precio
-            booleanProducto = true
+            if (nombre == almacen.sillas[i].nombre) {
+                almacen.sillas[i].nombre = nombreCambiado
+                almacen.sillas[i].img = imgCambiado
+                almacen.sillas[i].descripccion = descripccionCambiado
+                almacen.sillas[i].precio = precioCambiado
+                booleanProducto = true
+            }
         }
         booleanSeccion = true
         res.send(almacen)
@@ -107,61 +117,111 @@ app.post("/add", function(req, res) {
 
 })
 
-app.delete("/borrar", function(req, res) {
-    let seccion = req.body.seccion
+app.delete("/borrar", function (req, res) {
     let nombre = req.body.nombre
 
-    let booleanSeccion = false
     let booleanProducto = false
 
-    if (seccion == "armarios") {
+    if (booleanProducto == false) {
         for (let i = 0; i < almacen.armarios.length; i++) {
-            if (nombre == almacen.armarios[i].nombre)
-               // almacen.armarios[i].splice(i, 1)
-                 almacen.armarios.splice(i, 1)
-            booleanProducto = true
+            if (nombre == almacen.armarios[i].nombre) {
+                almacen.armarios.splice(i, 1)
+                booleanProducto = true
+                res.send(almacen)
+            }
         }
-        booleanSeccion = true
-        res.send(almacen)
- 
-      
+    }
 
-
-    } else if (seccion == "mesas") {
+    if (booleanProducto == false) {
         for (let i = 0; i < almacen.mesas.length; i++) {
-            if (nombre == almacen.mesas[i].nombre)
-                //almacen.mesas[i].splice(i, 1)
+            if (nombre == almacen.mesas[i].nombre) {
                 almacen.mesas.splice(i, 1)
-            booleanProducto = true
+                booleanProducto = true
+                res.send(almacen)
+            }
         }
-        booleanSeccion = true
-         res.send(almacen)
-       
-    
-
-
-    } else if (seccion == "sillas") {
-        for (let i = 0; i < almacen.sillas.length; i++) {
-            if (nombre == almacen.sillas[i].nombre)
-                //almacen.sillas[i].splice(i, 1)
-                 almacen.sillas.splice(i, 1)
-            booleanProducto = true
-        }
-        booleanSeccion = true
-           res.send(almacen)
-     
-      
-        
     }
-
-    if (booleanSeccion == false) {
-        res.send({ error: true, mensaje: "No existe esa seccion" })
+    if (booleanProducto == false) {
+        for (let i = 0; i < almacen.sillas.length; i++) {
+            if (nombre == almacen.sillas[i].nombre) {
+                almacen.sillas.splice(i, 1)
+                booleanProducto = true
+                res.send(almacen)
+            }
+        }
     }
 
     if (booleanProducto == false) {
         res.send({ error: true, mensaje: "No existe ese producto" })
     }
-}) 
+})
+
+
+
+app.get("/cesta", function (req, res) {
+    res.send(cesta)
+})
+
+app.post("/cesta", function (req, res) {
+    let nombre = req.body.nombre
+    let cantidad = parseInt(req.body.cantidad)
+
+    let booleanCesta = false
+
+    if (cesta[0] != undefined) {
+
+        for (let i = 0; i < cesta.length; i++) {
+            if (nombre == cesta[i].nombre) {
+                cesta[i].cantidad += cantidad
+                booleanCesta = true
+            }
+        }
+    }
+
+    if (booleanCesta == false) {
+        for (let i = 0; i < almacen.armarios.length; i++) {
+            if (nombre == almacen.armarios[i].nombre) {
+                almacen.armarios[i].cantidad = cantidad
+                cesta.push(almacen.armarios[i])
+                booleanCesta = true
+                res.send(cesta)
+            }
+        }
+    }
+
+    if (booleanCesta == false) {
+        for (let i = 0; i < almacen.mesas.length; i++) {
+            if (nombre == almacen.mesas[i].nombre) {
+                almacen.mesas[i].cantidad = cantidad
+                cesta.push(almacen.mesas[i])
+                booleanCesta = true
+                res.send(cesta)
+            }
+        }
+    }
+    if (booleanCesta == false) {
+        for (let i = 0; i < almacen.sillas.length; i++) {
+            if (nombre == almacen.sillas[i].nombre) {
+                almacen.sillas[i].cantidad = cantidad
+                cesta.push(almacen.sillas[i])
+                booleanCesta = true
+                res.send(cesta)
+            }
+        }
+    }
+
+
+
+
+
+    if (booleanCesta == false) {
+        res.send({ error: true, mensaje: "No existe ese producto" })
+    }
+    
+    res.send(cesta)
+
+})
+
 
 app.listen(3000, function() {
   console.log('Escuchando puerto 3000');
